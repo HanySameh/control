@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class MouseOperationsPage extends StatefulWidget {
   const MouseOperationsPage({Key? key}) : super(key: key);
@@ -46,12 +47,45 @@ class _MouseOperationsPageState extends State<MouseOperationsPage> {
         );
       },
       child: Scaffold(
-        body: Center(
-          child: Text(
-            'Mouse movement velocity = $_velocity \n Mouse is here ($_xEnd , $_yEnd) \n Time = $_time',
-            style: Theme.of(context).textTheme.headline6,
-            textAlign: TextAlign.center,
-          ),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SfRadialGauge(
+              axes: <RadialAxis>[
+                RadialAxis(
+                  minimum: 0,
+                  maximum: 500,
+                  ranges: <GaugeRange>[
+                    GaugeRange(
+                        startValue: 0, endValue: 150, color: Colors.green),
+                    GaugeRange(
+                        startValue: 150, endValue: 300, color: Colors.orange),
+                    GaugeRange(
+                        startValue: 300, endValue: 500, color: Colors.red)
+                  ],
+                  pointers: <GaugePointer>[
+                    NeedlePointer(value: _velocity),
+                  ],
+                  annotations: const <GaugeAnnotation>[
+                    GaugeAnnotation(
+                        widget: Text(
+                          'Velocity',
+                          style: TextStyle(
+                              fontSize: 25, fontWeight: FontWeight.bold),
+                        ),
+                        angle: 90,
+                        positionFactor: 0.5)
+                  ],
+                )
+              ],
+            ),
+            Text(
+              'Mouse movement velocity = $_velocity \n Mouse is here ($_xEnd , $_yEnd) \n Time = $_time',
+              style: Theme.of(context).textTheme.headline6,
+              textAlign: TextAlign.center,
+            ),
+          ],
         ),
       ),
     );
